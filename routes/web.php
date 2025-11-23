@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MinecraftServerController;
+use App\Http\Controllers\Admin\MinecraftConsoleController;
 
 Route::get('/', function () {
     return view('pages.index');
@@ -64,5 +65,10 @@ Route::prefix('admin')
         // Delete server
         Route::delete('/minecraft/{server}', [MinecraftServerController::class, 'destroy'])
             ->name('minecraft.destroy');
+        // console talking lines
+        Route::get('minecraft/{server}/console/logs', [MinecraftConsoleController::class, 'logs'])
+            ->name('minecraft.console.logs');
 
+        Route::post('minecraft/{server}/console/send', [MinecraftConsoleController::class, 'send'])
+            ->name('minecraft.console.send');
     });
