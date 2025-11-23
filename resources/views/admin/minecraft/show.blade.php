@@ -77,6 +77,14 @@
                 <p><span class="text-zinc-500">RAM:</span> {{ $server->ram }} GB</p>
                 <p><span class="text-zinc-500">CPU:</span> {{ $server->cpu }} cores</p>
                 <p><span class="text-zinc-500">Port:</span> {{ $server->port }}</p>
+
+                <p><span class="text-zinc-500">External IP:</span>
+                    <span class="font-mono">{{ $externalIp }}</span>
+                </p>
+
+                <p><span class="text-zinc-500">Connect:</span>
+                    <span class="font-mono">{{ $connectionAddress }}</span>
+                </p>
                 <p><span class="text-zinc-500">Created:</span> {{ $server->created_at->diffForHumans() }}</p>
             </div>
         </div>

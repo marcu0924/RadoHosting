@@ -180,15 +180,27 @@ class MinecraftServerController extends Controller
 
     public function show(MinecraftServer $server)
     {
+        // Keep your original logic exactly the same
         $dockerStatus = $this->getContainerStatus($server);
 
         if ($dockerStatus === null) {
             $dockerStatus = $server->running ? 'running' : 'stopped';
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Add your external/public IP here
+        |--------------------------------------------------------------------------
+        */
+
+        $externalIp = '216.82.35.88';              // <--- Your public server IP
+        $connectionAddress = $externalIp . ':' . $server->port;
+
         return view('admin.minecraft.show', [
-            'server'       => $server,
-            'dockerStatus' => $dockerStatus,
+            'server'            => $server,
+            'dockerStatus'      => $dockerStatus,
+            'connectionAddress' => $connectionAddress,
+            'externalIp'        => $externalIp,
         ]);
     }
 
