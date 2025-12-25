@@ -17,7 +17,14 @@ class MinecraftServerController extends Controller
      */
     public function index()
     {
-        $servers = MinecraftServer::orderByDesc('created_at')->get();
+        $query = MinecraftServer::orderByDesc('created_at');
+
+        // If you ever reuse this outside admin routes:
+        if (auth()->check() && auth()->user()->role !== 'admin') {
+            $query->where('user_id', auth()->id());
+        }
+
+        $servers = $query->get();
 
         return view('admin.minecraft.index', compact('servers'));
     }
@@ -163,6 +170,7 @@ class MinecraftServerController extends Controller
 
         // 6. Persist info so the admin panel can see it
         $server = MinecraftServer::create([
+            'user_id'        => auth()->id(), // ✅ ownership
             'name'           => $data['name'],
             'ram'            => $memoryGb,
             'cpu'            => 1,

@@ -66,4 +66,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function minecraftServers()
+    {
+        return $this->hasMany(\App\Models\MinecraftServer::class);
+    }
 }

@@ -28,7 +28,7 @@ class SystemMetrics
         $used  = (int)($parts[2] ?? 0);
 
         $percent = $total > 0 ? round($used / $total * 100, 1) : 0;
-
+        
         return [
             'total'   => $total,
             'used'    => $used,
@@ -43,7 +43,7 @@ class SystemMetrics
         $used  = $total - $free;
 
         $percent = $total > 0 ? round($used / $total * 100, 1) : 0;
-
+        
         return [
             'total'   => $total,
             'used'    => $used,

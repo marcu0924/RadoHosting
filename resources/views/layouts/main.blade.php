@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Rado Hosting') }}</title>
+    <title>@yield('title', config('app.name', 'Rado Hosting'))</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,122 +20,152 @@
                 <span class="text-white">Hosting</span>
             </a>
 
-            {{-- Auth Buttons --}}
-            <nav class="flex items-center space-x-4">
-
-                @auth
-                    {{-- Admin Panel Link --}}
-                    @if (auth()->user()->role === 'admin')
-                        <a href="/admin"
-                           class="px-4 py-2 rounded-lg border border-emerald-500 text-emerald-400 text-sm hover:bg-emerald-500 hover:text-black transition">
-                            Admin Panel
+            {{-- Mobile Pricing --}}
+            <div class="md:hidden">
+                <details class="relative">
+                    <summary class="cursor-pointer text-sm text-zinc-300 hover:text-emerald-400">
+                        Pricing
+                    </summary>
+                    <div class="absolute left-0 top-full w-56 rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl">
+                        <a href="{{ route('pricing.minecraft') }}"
+                           class="block px-4 py-3 text-sm hover:bg-zinc-800 hover:text-emerald-400">
+                            Minecraft Hosting
                         </a>
-                    @endif
+                        <span class="block px-4 py-3 text-sm text-zinc-500">
+                            Web Hosting (Coming Soon)
+                        </span>
+                    </div>
+                </details>
+            </div>
 
-                    {{-- Logout --}}
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-sm">
-                            Logout
+            {{-- Desktop Navigation --}}
+            <nav class="flex items-center space-x-6">
+
+                {{-- Public Links --}}
+                <div class="hidden md:flex items-center space-x-6 text-sm text-zinc-300">
+
+                    {{-- Pricing Dropdown (FIXED) --}}
+                    <div class="relative group">
+
+                        <button
+                            class="inline-flex items-center gap-1 hover:text-emerald-400 transition">
+                            Pricing
+                            <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19 9l-7 7-7-7"/>
+                            </svg>
                         </button>
-                    </form>
-                @endauth
 
-                @guest
-                    <a href="{{ route('login') }}"
-                       class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}"
-                       class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-sm">
-                        Register
-                    </a>
-                @endguest
+                        <div
+                            class="absolute left-0 top-full w-56 rounded-xl border border-zinc-800
+                                   bg-zinc-900 shadow-xl
+                                   opacity-0 invisible
+                                   group-hover:opacity-100 group-hover:visible
+                                   transition">
 
-            </nav>
-        </div>
-    </header>
+                            <a href="{{ route('pricing.minecraft') }}"
+                               class="block px-4 py-3 text-sm hover:bg-zinc-800 hover:text-emerald-400">
+                                Minecraft Hosting
+                            </a>
 
-    {{-- Admin Navigation --}}
-    @auth
-        @if (auth()->user()->role === 'admin')
-            <nav class="w-full bg-zinc-900/40 border-b border-zinc-800">
+                            <span class="block px-4 py-3 text-sm text-zinc-500 cursor-not-allowed">
+                                Web Hosting (Coming Soon)
+                            </span>
+                        </div>
+                    </div>
 
-                <div class="max-w-7xl mx-auto px-4 py-3 space-y-2">
+                    <a href="#" class="hover:text-emerald-400 transition">Status</a>
+                    <a href="#" class="hover:text-emerald-400 transition">Docs</a>
+                </div>
 
-                    {{-- Mobile: Collapsible admin menu --}}
-                    <div class="md:hidden">
-                        <details class="bg-zinc-900/70 border border-zinc-800 rounded-xl overflow-hidden">
-                            <summary class="flex items-center justify-between px-4 py-2 cursor-pointer select-none">
-                                <span class="text-sm font-medium text-zinc-200">
-                                    Admin Menu
+                {{-- Auth / Profile --}}
+                <div class="flex items-center space-x-4">
+
+                    @auth
+
+                        {{-- Admin Panel --}}
+                        @if (auth()->user()->role === 'admin')
+                            <a href="/admin"
+                               class="px-4 py-2 rounded-lg border border-emerald-500 text-emerald-400 text-sm
+                                      hover:bg-emerald-500 hover:text-black transition">
+                                Admin Panel
+                            </a>
+                        @endif
+
+                        {{-- Profile Dropdown (FIXED) --}}
+                        <div class="relative group">
+
+                            <button
+                                class="flex items-center gap-2 rounded-lg bg-zinc-800 px-3 py-2 text-sm
+                                       hover:bg-zinc-700 transition">
+
+                                <span class="flex h-7 w-7 items-center justify-center rounded-full
+                                             bg-emerald-500 text-xs font-bold text-zinc-900">
+                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                 </span>
-                                <span class="text-xs text-zinc-400">
-                                    Tap to expand
-                                </span>
-                            </summary>
 
-                            <div class="border-t border-zinc-800 flex flex-col">
-                                <a href="/admin"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Dashboard
+                                <span class="hidden sm:inline text-zinc-200">
+                                    {{ auth()->user()->name }}
+                                </span>
+
+                                <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+
+                            <div
+                                class="absolute right-0 top-full w-56 rounded-xl border border-zinc-800
+                                       bg-zinc-900 shadow-xl
+                                       opacity-0 invisible
+                                       group-hover:opacity-100 group-hover:visible
+                                       transition">
+
+                                <a href="{{ route('profile.show') }}"
+                                   class="block px-4 py-3 text-sm hover:bg-zinc-800 hover:text-emerald-400">
+                                    Profile
                                 </a>
-                                <a href="/admin/users"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Manage Users
+
+                                @auth
+                                <a href="{{ route('servers.index') }}"
+                                class="block px-4 py-3 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
+                                    My Servers
                                 </a>
-                                <a href="/admin/tickets"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Tickets
-                                </a>
-                                <a href="/admin/servers"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Server Manager
-                                </a>
-                                <a href="/admin/gameservers"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Game Servers
-                                </a>
-                                <a href="/admin/logs"
-                                class="px-4 py-2 text-sm hover:bg-zinc-800 hover:text-emerald-400 transition">
-                                    Logs
-                                </a>
+                                @endauth
+
+                                <span class="block px-4 py-3 text-sm text-zinc-500 cursor-not-allowed">
+                                    Billing (Coming Soon)
+                                </span>
+
+                                <div class="border-t border-zinc-800"></div>
+
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button
+                                        class="w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-zinc-800">
+                                        Logout
+                                    </button>
+                                </form>
                             </div>
-                        </details>
-                    </div>
+                        </div>
 
-                    {{-- Desktop: Horizontal admin nav --}}
-                    <div class="hidden md:flex md:items-center md:space-x-6 text-sm">
-                        <a href="/admin"
-                        class="hover:text-emerald-400 transition">
-                            Dashboard
+                    @endauth
+
+                    @guest
+                        <a href="{{ route('login') }}"
+                           class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm">
+                            Login
                         </a>
-                        <a href="/admin/users"
-                        class="hover:text-emerald-400 transition">
-                            Manage Users
+                        <a href="{{ route('register') }}"
+                           class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-sm">
+                            Register
                         </a>
-                        <a href="/admin/tickets"
-                        class="hover:text-emerald-400 transition">
-                            Tickets
-                        </a>
-                        <a href="/admin/servers"
-                        class="hover:text-emerald-400 transition">
-                            Server Manager
-                        </a>
-                        <a href="/admin/gameservers"
-                        class="hover:text-emerald-400 transition">
-                            Game Servers
-                        </a>
-                        <a href="/admin/logs"
-                        class="hover:text-emerald-400 transition">
-                            Logs
-                        </a>
-                    </div>
+                    @endguest
 
                 </div>
             </nav>
-        @endif
-    @endauth
+        </div>
+    </header>
 
     {{-- Content --}}
     <main class="flex-1">

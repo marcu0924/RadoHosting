@@ -17,7 +17,7 @@ class DashboardController extends Controller
         // Host resource stats for the machine running this Laravel app
         $cpuUsage    = $this->getCpuLoadPercent();
         $memoryUsage = $this->getMemoryUsagePercent();
-        $diskUsage   = $this->getDiskUsagePercent('/'); // change path if needed
+        $diskUsage   = $this->getDiskUsagePercent('/home'); // change path if needed
 
         // Pull live Minecraft servers from Docker (filtered)
         $allServers = $this->getDockerServers(); // Collection
