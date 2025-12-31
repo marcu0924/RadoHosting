@@ -74,8 +74,8 @@
                         </div>
                     </div>
 
-                    <a href="#" class="hover:text-emerald-400 transition">Status</a>
-                    <a href="#" class="hover:text-emerald-400 transition">Docs</a>
+                    {{-- <a href="#" class="hover:text-emerald-400 transition">Status</a>
+                    <a href="#" class="hover:text-emerald-400 transition">Docs</a> --}}
                 </div>
 
                 {{-- Auth / Profile --}}
