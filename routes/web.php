@@ -163,4 +163,12 @@ Route::prefix('admin')
 
         Route::post('/minecraft/{server}/console/send', [MinecraftConsoleController::class, 'send'])
             ->name('minecraft.console.send');
+        /*
+        |--------------------------------------------------------------------------
+        | Ticket System Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/tickets', function () {
+            return view('admin.tickets.index');
+        })->name('tickets');  
     });
