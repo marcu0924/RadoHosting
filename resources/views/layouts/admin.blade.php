@@ -160,7 +160,7 @@
                 </a>
 
                 {{-- Tickets --}}
-                <a href="#"
+                <a href="{{ route('admin.tickets'); }}"
                    class="group flex items-center gap-2 px-4 py-2.5 border-l-2 border-transparent hover:border-emerald-500/80 hover:bg-zinc-900/80 transition">
                     <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 border border-zinc-700/70 text-zinc-300 group-hover:text-emerald-300">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
